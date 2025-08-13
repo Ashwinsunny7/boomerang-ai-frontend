@@ -1,0 +1,9 @@
+/* Tailwind v4 – one import includes preflight + utilities */
+@import "tailwindcss";
+
+/* optional: layout helpers */
+html,
+body,
+#root {
+  height: 100%;
+}
