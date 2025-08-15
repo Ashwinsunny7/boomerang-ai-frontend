@@ -1,4 +1,3 @@
-// app/routes/actions-new.tsx
 import { useState } from "react";
 import { Actions } from "../lib/api";
 
@@ -20,7 +19,7 @@ const EXAMPLE = `{
   "defaultsJson": {
     "method": "POST",
     "url": "https://httpbin.org/post",
-    "bodyTemplate": "{\\"msg\\": \\"Lead {{lead.name}} qualified\\"}"
+    "bodyTemplate": "{\"msg\": \"Lead {{lead.name}} qualified\"}"
   }
 }`;
 
@@ -42,32 +41,19 @@ export default function ActionsNew() {
     };
 
     return (
-        <div className="space-y-3">
-            <h1 className="text-xl font-semibold">Create ActionKind (Dynamic Node)</h1>
-            <p className="text-sm text-neutral-600">
-                Paste a JSON payload. The <code>key</code> becomes <code>node.type</code>. The <code>schemaJson</code> is a JSON
-                Schema used to render the config form in the editor.
+        <div className="space-y-4">
+            <h1 className="text-xl font-semibold text-white">Create ActionKind (Dynamic Node)</h1>
+            <p className="text-sm text-slate-300">
+                Paste a JSON payload. The <code>key</code> becomes <code>node.type</code>. The <code>schemaJson</code> is a JSON Schema used to render the config form in the editor.
             </p>
 
-            <textarea
-                className="w-full h-80 rounded border px-3 py-2 font-mono text-sm"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-            />
+            <textarea className="w-full h-80 rounded-lg border border-slate-700 bg-slate-900 text-slate-100 px-3 py-2 font-mono text-sm" value={text} onChange={(e) => setText(e.target.value)} />
 
             <div className="flex gap-2">
-                <button
-                    onClick={create}
-                    disabled={busy}
-                    className="rounded bg-black text-white px-3 py-2 disabled:opacity-60"
-                >
+                <button onClick={create} disabled={busy} className="rounded-lg bg-sky-500 text-white px-4 py-2 disabled:opacity-60 hover:bg-sky-400">
                     {busy ? "Creating..." : "Create"}
                 </button>
-                <button
-                    type="button"
-                    className="rounded border px-3 py-2"
-                    onClick={() => setText(EXAMPLE)}
-                >
+                <button type="button" className="rounded-lg border border-slate-700 bg-slate-900 text-slate-100 px-4 py-2" onClick={() => setText(EXAMPLE)}>
                     Reset example
                 </button>
             </div>

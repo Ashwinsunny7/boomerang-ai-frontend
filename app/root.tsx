@@ -13,25 +13,40 @@ export default function Root() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Boomerang – Workflow Studio</title>
       </head>
-      <body className="bg-neutral-50 text-neutral-900">
+      <body className="bg-slate-950 text-slate-100">
         <QueryClientProvider client={queryClient}>
           <div className="min-h-dvh grid grid-rows-[auto,1fr]">
-            <header className="border-b bg-white">
-              <div className="mx-auto max-w-5xl px-4 py-3 flex items-center gap-4">
-                <div className="font-semibold text-rose-500">Boomerang – Workflow Studio</div>
-                <nav className="text-sm flex gap-4">
-                  <Link to="/actions/new">Add Nodes</Link>
-                  <Link to="/workflows">Workflows</Link>
-                  <Link to="/runs">Runs</Link>
-                  <Link to="/playground/trigger-leads">Trigger Tester</Link>
 
-                </nav>
-              </div>
+            {/* Fixed Header */}
+            <header className="fixed top-0 left-0 w-full h-14 bg-slate-950 border-b border-slate-800 flex items-center justify-between px-6 z-50">
+              <Link to="/" className="text-lg font-semibold text-white">Boomerang Studio</Link>
+              <nav className="flex gap-6 text-slate-300">
+                <Link to="/actions/new" className="hover:text-white">Add Nodes</Link>
+                <Link to="/workflows" className="hover:text-white">Workflows</Link>
+                <Link to="/runs" className="hover:text-white">Runs</Link>
+                <Link to="/playground/trigger-leads" className="hover:text-white">Trigger Tester</Link>
+              </nav>
             </header>
 
-            <main className="mx-auto max-w-5xl w-full p-4">
+            {/* Content with top padding so it clears the fixed header */}
+            <main className="mx-auto max-w-7xl w-full p-4 pt-20">
+              {/* Welcome Banner */}
+              <div className="mb-6">
+                <h1 className="text-2xl font-bold text-white tracking-tight">
+                  Welcome to <span className="text-sky-400">BoomerangAI Studio</span>
+                </h1>
+                <p className="text-slate-400 text-sm">
+                  Your hub for designing workflows, managing nodes, and monitoring runs.
+                </p>
+              </div>
+
               <Outlet />
             </main>
+
+            {/* Fixed Footer */}
+            <footer className="fixed bottom-0 left-0 w-full h-12 bg-slate-950 border-t border-slate-800 flex items-center justify-center text-slate-400 text-sm z-50">
+              © {new Date().getFullYear()} BoomerangAI Studio — All rights reserved.
+            </footer>
           </div>
           <ScrollRestoration />
           <Scripts />
@@ -39,4 +54,5 @@ export default function Root() {
       </body>
     </html>
   );
+
 }
