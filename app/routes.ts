@@ -7,6 +7,8 @@ export default [
     route("workflows", "routes/workflows.tsx"),
     route("workflows/new", "routes/workflows-new.tsx"),   // wrapper file we added
     route("workflows/:id/edit", "routes/workflows-edit.tsx"),
+    route("actions/new", "routes/actions-new.tsx"),
+
 
     // runs
     route("runs", "routes/runs.tsx"),

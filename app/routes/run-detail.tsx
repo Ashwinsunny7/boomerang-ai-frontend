@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { Runs } from "../lib/api";
 import type { Run, RunLog } from "../lib/types";
 import { getSocket } from "../lib/ws";
+import { formatDateTime } from "../lib/format";
 
 export default function RunDetail() {
     const { runId } = useParams();
@@ -32,7 +33,7 @@ export default function RunDetail() {
                 <div className="rounded border bg-white p-3">
                     <div className="text-sm">Workflow: <span className="font-medium">{run.workflowId}</span></div>
                     <div className="text-sm">Status: <span className="font-medium">{run.status}</span></div>
-                    <div className="text-sm">Started: {new Date(run.startedAt).toLocaleString()}</div>
+                    <div className="text-sm">Started: {formatDateTime(run.startedAt)}</div>
                     {run.finishedAt && <div className="text-sm">Finished: {new Date(run.finishedAt).toLocaleString()}</div>}
                 </div>
             )}

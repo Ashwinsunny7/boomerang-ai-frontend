@@ -8,6 +8,12 @@ import type { NodeType } from "../lib/types";
 type FormValues = { name: string; config: any };
 
 // Base + per-type schemas (all resolve to FormValues)
+const num0 = z.preprocess((v) => {
+    if (typeof v === "number") return Number.isFinite(v) ? v : 0;
+    const n = Number(v as any);
+    return Number.isFinite(n) ? n : 0;
+}, z.number().int().min(0));
+
 const base = z.object({ name: z.string().min(1, "Required") });
 
 const cfgByType: Record<NodeType, z.ZodType<FormValues>> = {
@@ -17,16 +23,30 @@ const cfgByType: Record<NodeType, z.ZodType<FormValues>> = {
             msg: z.string().min(1),
         }),
     }),
+    // WAIT: base.extend({
+    //     config: z
+    //         .object({
+    //             seconds: z.number().int().positive().optional(),
+    //             minutes: z.number().int().positive().optional(),
+    //             hours: z.number().int().positive().optional(),
+    //         })
+    //         .refine((v) => v.seconds || v.minutes || v.hours, {
+    //             message: "Provide a delay",
+    //         }),
+    // }),
     WAIT: base.extend({
         config: z
             .object({
-                seconds: z.number().int().positive().optional(),
-                minutes: z.number().int().positive().optional(),
-                hours: z.number().int().positive().optional(),
+                seconds: num0.optional(),
+                minutes: num0.optional(),
+                hours: num0.optional(),
             })
-            .refine((v) => v.seconds || v.minutes || v.hours, {
-                message: "Provide a delay",
-            }),
+            .refine((v) => {
+                const s = v.seconds ?? 0;
+                const m = v.minutes ?? 0;
+                const h = v.hours ?? 0;
+                return s + m + h > 0;
+            }, { message: "Set at least one non-zero duration (seconds/minutes/hours)." }),
     }),
     EMAIL: base.extend({
         config: z.object({
@@ -88,8 +108,22 @@ export function NodeConfigForm(props: {
         reset({ name: props.initial.name, config: props.initial.config });
     }, [props.initial, reset]);
 
-    const onValid: SubmitHandler<FormValues> = (v) =>
+    const onValid: SubmitHandler<FormValues> = (v) => {
+        if (props.type === "IF") {
+            const r = (v as any)?.config?.rule;
+            if (typeof r === "string") {
+                try {
+                    (v as any).config.rule = JSON.parse(r);
+                } catch {
+                    alert("Rule must be valid JSON, e.g. { \"in\": [\"CEO\", {\"var\":\"lead.title\"}] }");
+                    return; // stop submit
+                }
+            }
+        }
         props.onSubmit({ ...v, type: props.type });
+    };
+
+    // props.onSubmit({ ...v, type: props.type });
 
     return (
         <form onSubmit={handleSubmit(onValid)} className="space-y-3">

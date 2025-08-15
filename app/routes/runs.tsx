@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Runs } from "../lib/api";
 import { Link } from "react-router";
+import { formatDateTime } from "../lib/format";
 
 export default function RunsList() {
     const { data, isLoading, isError, error } = useQuery({ queryKey: ["runs"], queryFn: () => Runs.list() });
@@ -16,7 +17,7 @@ export default function RunsList() {
                     <Link key={r.id} to={`/runs/${r.id}`} className="rounded border bg-white px-3 py-2 flex items-center justify-between">
                         <div>
                             <div className="font-medium">{r.workflowId}</div>
-                            <div className="text-xs text-neutral-500">{new Date(r.startedAt).toLocaleString()}</div>
+                            <div className="text-xs text-neutral-500">{formatDateTime(r.startedAt)}</div>
                         </div>
                         <div className="text-xs rounded px-2 py-1 border">{r.status}</div>
                     </Link>

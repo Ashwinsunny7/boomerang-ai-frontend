@@ -20,9 +20,11 @@ export default function Root() {
               <div className="mx-auto max-w-5xl px-4 py-3 flex items-center gap-4">
                 <div className="font-semibold text-rose-500">Boomerang – Workflow Studio</div>
                 <nav className="text-sm flex gap-4">
+                  <Link to="/actions/new">Add Nodes</Link>
                   <Link to="/workflows">Workflows</Link>
                   <Link to="/runs">Runs</Link>
                   <Link to="/playground/trigger-leads">Trigger Tester</Link>
+
                 </nav>
               </div>
             </header>
